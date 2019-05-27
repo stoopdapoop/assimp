@@ -33,6 +33,10 @@ cmake_uninstall.cmake
 assimp-config.cmake
 assimp-config-version.cmake
 
+assimpTargets.cmake
+assimpTargets-debug.cmake
+assimpTargets-release.cmake
+
 # MakeFile
 Makefile
 code/Makefile
