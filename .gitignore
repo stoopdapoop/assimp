@@ -12,6 +12,8 @@ build
 bin/
 lib/
 
+.vs/
+
 # QtCreator
 CMakeLists.txt.user
 
