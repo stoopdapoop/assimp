@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2019, assimp team
+Copyright (c) 2006-2020, assimp team
 
 
 All rights reserved.
@@ -285,11 +285,11 @@ public:
         out.mVerts.reserve(out.mVerts.size() + cnt);
 
         for(const CurveEntry& entry : curves) {
-            const size_t cnt = out.mVerts.size();
+            const size_t curCnt = out.mVerts.size();
             entry.first->SampleDiscrete(out);
 
-            if (!entry.second && cnt != out.mVerts.size()) {
-                std::reverse(out.mVerts.begin()+cnt,out.mVerts.end());
+            if (!entry.second && curCnt != out.mVerts.size()) {
+                std::reverse(out.mVerts.begin() + curCnt, out.mVerts.end());
             }
         }
     }
@@ -311,10 +311,9 @@ class TrimmedCurve : public BoundedCurve {
 public:
     // --------------------------------------------------
     TrimmedCurve(const Schema_2x3::IfcTrimmedCurve& entity, ConversionData& conv)
-        : BoundedCurve(entity,conv)
+        : BoundedCurve(entity,conv),
+          base(std::shared_ptr<const Curve>(Curve::Convert(entity.BasisCurve,conv)))
     {
-        base = std::shared_ptr<const Curve>(Curve::Convert(entity.BasisCurve,conv));
-
         typedef std::shared_ptr<const STEP::EXPRESS::DataType> Entry;
 
         // for some reason, trimmed curves can either specify a parametric value
@@ -324,14 +323,14 @@ public:
         // oh well.
         bool have_param = false, have_point = false;
         IfcVector3 point;
-        for(const Entry sel :entity.Trim1) {
+        for(const Entry& sel :entity.Trim1) {
             if (const ::Assimp::STEP::EXPRESS::REAL* const r = sel->ToPtr<::Assimp::STEP::EXPRESS::REAL>()) {
                 range.first = *r;
                 have_param = true;
                 break;
             }
-            else if (const Schema_2x3::IfcCartesianPoint* const r = sel->ResolveSelectPtr<Schema_2x3::IfcCartesianPoint>(conv.db)) {
-                ConvertCartesianPoint(point,*r);
+            else if (const Schema_2x3::IfcCartesianPoint* const curR = sel->ResolveSelectPtr<Schema_2x3::IfcCartesianPoint>(conv.db)) {
+                ConvertCartesianPoint(point, *curR);
                 have_point = true;
             }
         }
@@ -341,14 +340,14 @@ public:
             }
         }
         have_param = false, have_point = false;
-        for(const Entry sel :entity.Trim2) {
+        for(const Entry& sel :entity.Trim2) {
             if (const ::Assimp::STEP::EXPRESS::REAL* const r = sel->ToPtr<::Assimp::STEP::EXPRESS::REAL>()) {
                 range.second = *r;
                 have_param = true;
                 break;
             }
-            else if (const Schema_2x3::IfcCartesianPoint* const r = sel->ResolveSelectPtr<Schema_2x3::IfcCartesianPoint>(conv.db)) {
-                ConvertCartesianPoint(point,*r);
+            else if (const Schema_2x3::IfcCartesianPoint* const curR = sel->ResolveSelectPtr<Schema_2x3::IfcCartesianPoint>(conv.db)) {
+                ConvertCartesianPoint(point, *curR);
                 have_point = true;
             }
         }
@@ -500,7 +499,7 @@ bool Curve::InRange(IfcFloat u) const {
     if (IsClosed()) {
         return true;
     }
-    const IfcFloat epsilon = 1e-5;
+    const IfcFloat epsilon = Math::getEpsilon<float>();
     return u - range.first > -epsilon && range.second - u > -epsilon;
 }
 #endif

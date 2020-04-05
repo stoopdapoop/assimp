@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2019, assimp team
+Copyright (c) 2006-2020, assimp team
 
 
 All rights reserved.
@@ -44,21 +44,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *  @brief Implementation of conversion routines for some common Ifc helper entities.
  */
 
-
-
 #ifndef ASSIMP_BUILD_NO_IFC_IMPORTER
 
-#include "code/Importer/IFC/IFCUtil.h"
-#include "code/PolyTools.h"
-#include "code/ProcessHelper.h"
+#include "Importer/IFC/IFCUtil.h"
+#include "Common/PolyTools.h"
+#include "PostProcessing/ProcessHelper.h"
 #include <assimp/Defines.h>
 
 namespace Assimp {
-    namespace IFC {
+namespace IFC {
 
 // ------------------------------------------------------------------------------------------------
-void TempOpening::Transform(const IfcMatrix4& mat)
-{
+void TempOpening::Transform(const IfcMatrix4& mat) {
     if(profileMesh) {
         profileMesh->Transform(mat);
     }
@@ -365,8 +362,9 @@ void TempMesh::FixupFaceOrientation()
                 {
                     std::reverse(mVerts.begin() + nbvsi, mVerts.begin() + nbvsi + nbvc);
                     std::reverse(neighbour.begin() + nbvsi, neighbour.begin() + nbvsi + nbvc);
-                    for( size_t a = 0; a < nbvc - 1; ++a )
-                        std::swap(neighbour[nbvsi + a], neighbour[nbvsi + a + 1]);
+                    for (size_t aa = 0; aa < nbvc - 1; ++aa) {
+                        std::swap(neighbour[nbvsi + aa], neighbour[nbvsi + aa + 1]);
+                    }
                 }
 
                 // either way we're done with the neighbour. Mark it as done and continue checking from there recursively

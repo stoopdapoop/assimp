@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2019, assimp team
+Copyright (c) 2006-2020, assimp team
 
 
 All rights reserved.
@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef INCLUDED_AI_STEPFILEREADER_H
 #define INCLUDED_AI_STEPFILEREADER_H
 
-#include "code/STEPFile.h"
+#include "code/Step/STEPFile.h"
 
 namespace Assimp {
 namespace STEP {

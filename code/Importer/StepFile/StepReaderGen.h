@@ -2,7 +2,7 @@
 Open Asset Import Library (ASSIMP)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2018, ASSIMP Development Team
+Copyright (c) 2006-2020, ASSIMP Development Team
 All rights reserved.
 
 Redistribution and use of this software in source and binary forms, 
@@ -43,8 +43,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef INCLUDED_STEPFILE_READER_GEN_H
 #define INCLUDED_STEPFILE_READER_GEN_H
 
-#include "code/STEPFile.h"
+#include "code/Step/STEPFile.h"
 
+#ifdef _WIN32
+#    pragma warning( disable : 4512 )
+#endif // _WIN32
 namespace Assimp {
 namespace StepFile {
 	using namespace STEP;
@@ -404,7 +407,7 @@ namespace StepFile {
     // C++ wrapper type for presentation_style_select
     typedef SELECT presentation_style_select;
     // C++ wrapper type for presented_item_select
-    typedef SELECT presented_item_select;
+    //typedef SELECT presented_item_select;
     // C++ wrapper type for pressure_measure
     typedef REAL pressure_measure;
     // C++ wrapper type for product_definition_or_assembly_relationship
@@ -545,7 +548,7 @@ namespace StepFile {
 	struct absorbed_dose_measure_with_unit;
 	struct derived_unit;
 	struct absorbed_dose_unit;
-	struct abstract_variable;
+	//struct abstract_variable;
 	struct acceleration_measure_with_unit;
 	struct acceleration_unit;
 	struct action;
@@ -646,7 +649,7 @@ namespace StepFile {
 	struct applied_organizational_project_assignment;
 	struct person_and_organization_assignment;
 	struct applied_person_and_organization_assignment;
-	struct presented_item;
+	//struct presented_item;
 	struct applied_presented_item;
 	struct security_classification_assignment;
 	struct applied_security_classification_assignment;
